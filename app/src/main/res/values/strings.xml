@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Tiny</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="websocket_url">wss://192.168.51.222</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="action_about">About</string>
+
+    <!-- Web socket error -->
+    <string name="websocket_closed">WebSocket closed: %1$s</string>
+    <string name="websocket_connected">WebSocket opened on %1$s</string>
+    <string name="websocket_received_message">WebSocket got message: %1$s</string>
+    <string name="websocket_sent_command">WebSocket sent command: %1$s</string>
+
+
+    <string name="websocket_failure">WebSocket failure: %s$1</string>
+    <string name="status_lines"> %1$d: %2$s\n</string>
+    <string name="status_line">%1$d: %2$s\n</string>
+
+</resources>
