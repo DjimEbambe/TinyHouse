@@ -1,12 +1,17 @@
 package com.icam.tiny
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import com.github.lzyzsd.circleprogress.ArcProgress
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
@@ -20,10 +25,7 @@ import java.net.URI
 
 
 class MainActivity : AppCompatActivity() {
-    private var ip = "192.168.202.222"
-    private val uri = URI("ws://${ip}/ws")
-    private  var valuesGet: List<String> =listOf (" ")
-    private val client_ = MyWebSocketClient(this, uri)
+
     //fan
     var fan_state_get: Int? = null
     var fan_speed_get: Int? = null
@@ -37,6 +39,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val SP: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext)
+        val getIp= SP.getString("ip", "NA")
+
+        //Client setting
+        var ip = getIp
+        val uri = URI("ws://${ip}/ws")
+        var valuesGet: List<String> =listOf (" ")
+        val client_ = MyWebSocketClient(this, uri)
+
         var speedSet =""
         val fan_state = findViewById<TextView>(R.id.fan_state)
         val fan_mode = findViewById<ToggleButton>(R.id.fan_mode)
@@ -61,7 +72,13 @@ class MainActivity : AppCompatActivity() {
         val progress1 = findViewById<ArcProgress>(R.id.progress1)
         val progress2 = findViewById<ArcProgress>(R.id.progress2)
         val progress3 = findViewById<ArcProgress>(R.id.progress3)
-        progress1.progress=90
+        val progress4 = findViewById<ArcProgress>(R.id.progress4)
+        val progress5 = findViewById<ArcProgress>(R.id.progress5)
+        progress1.progress=27
+        progress2.progress=80
+        progress3.progress=100
+        progress5.progress=100
+
 
         val btnConnect = findViewById<Button>(R.id.btnConnect)
         btnConnect.visibility = View.GONE
@@ -79,6 +96,7 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 btnConnect.text="connecting..."
                 btnConnect.isEnabled=true
+                btnConnect.visibility = View.VISIBLE
                 Toast.makeText(this@MainActivity, "$e", Toast.LENGTH_SHORT).show()
             }
         }
@@ -154,11 +172,13 @@ class MainActivity : AppCompatActivity() {
                             led_state3.isEnabled=true
                             led_level.isEnabled=true
                         }
+                        //dashboard
                     }
                 }
             } catch (e: Exception) {
                 btnConnect.text="connecting..."
                 btnConnect.isEnabled=true
+                btnConnect.visibility = View.VISIBLE
                 Toast.makeText(this@MainActivity, "$e", Toast.LENGTH_SHORT).show()
             }
         }
@@ -183,6 +203,7 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     btnConnect.text="connecting..."
                     btnConnect.isEnabled=true
+                    btnConnect.visibility = View.VISIBLE
                     Toast.makeText(this@MainActivity, "$e", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -216,6 +237,7 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     btnConnect.text="connecting..."
                     btnConnect.isEnabled=true
+                    btnConnect.visibility = View.VISIBLE
                     Toast.makeText(this@MainActivity, "$e", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -253,6 +275,7 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     btnConnect.text="connecting..."
                     btnConnect.isEnabled=true
+                    btnConnect.visibility = View.VISIBLE
                     Toast.makeText(this@MainActivity, "$e", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -265,6 +288,7 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     btnConnect.text="connecting..."
                     btnConnect.isEnabled=true
+                    btnConnect.visibility = View.VISIBLE
                     Toast.makeText(this@MainActivity, "$e", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -285,6 +309,7 @@ class MainActivity : AppCompatActivity() {
                     } catch (e: Exception) {
                         btnConnect.text="connecting..."
                         btnConnect.isEnabled=true
+                        btnConnect.visibility = View.VISIBLE
                         Toast.makeText(this@MainActivity, "$e", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -295,4 +320,27 @@ class MainActivity : AppCompatActivity() {
         val ratio = (number - original.start).toFloat() / (original.endInclusive - original.start)
         return (ratio * (target.endInclusive - target.start)).toInt()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                startActivity(Intent( this, SettingsActivity::class.java))
+                true
+            }
+            R.id.action_about -> {
+                startActivity(Intent( this, SettingsActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
+
+    }
+
 }
